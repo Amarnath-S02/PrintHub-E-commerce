@@ -1,0 +1,191 @@
+<!-- cart.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintHub-Ecommerce</title>
+    <link rel="shortcut icon" href="./Assets/Printhub_nobg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="./CSS/stylespro.css">
+    <script src="https://kit.fontawesome.com/dad03e859c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Berkshire+Swash&family=Comic+Neue:wght@700&family=Gentium+Book+Plus:wght@400;700&family=Lato:ital,wght@0,400;0,700;0,900;1,700&family=Lexend+Deca:wght@500&family=Lexend:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@500;800&family=Roboto:wght@100;400&family=Sue+Ellen+Francisco&family=Work+Sans:wght@400;700;900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900;&display:swap">
+</head>
+
+<body>
+    <%- include ('navbar') %>
+
+<!-- Content comes here -->
+    <section id="page-header" class="blog-header">
+        <h2>Cart</h2>
+        <p>Add your coupon code & save upto 70%!</p>
+    </section>
+  
+    <section id="cart" class="section-p1">
+    <table width="100%">
+    <thead>
+    <tr>
+        <td>Remove</td>
+        <td>Image</td>
+        <td>Product</td>
+        <td>Price</td>
+        <td>Quantity</td>
+        <td>Subtotal</td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr><% cartitems.forEach(cart => { %>
+    <td><button data-cartid="<%= cart._id %>" class="delete-btn" type="button">
+        <i class="far fa-times-circle"></i>
+     </button>
+     </td>
+    <td><% if (cart.productImage && cart.productImage.data) { %>
+        <img class="imagebox" src="data:<%= cart.productImage.contentType %>;base64, <%= cart.productImage.data.toString('base64') %>" height="100" width="100">
+      <% } else { %>
+        <span>No Image Available</span>
+      <% } %></td>
+      <td><%= cart.productName %></td>
+      <td>Rs <%= cart.productPrice %></td>
+      <td style="max-width: 50px;">
+               
+        <input type="number" name="update_quantity" min="1" value="<%= cart.productQuantity %>" 
+        onchange="updateQuantity('<%= cart._id %>', this.value)" style="max-width: 70px;">
+
+        </form>                                                                     
+
+     </td>
+     <% let totalPrice = cart.productQuantity * cart.productPrice; %>
+     <td>Rs <%= totalPrice %></td>
+    </tr><% }) %>    
+    </tbody>
+    </table>
+</section>
+
+<section id="cart-add" class="section-p1">
+    <div id="subtotal">
+        <h3>Cart Totals</h3>
+        <table>
+        <tr>
+            <td>Card-Subtotal</td>
+            <td>RS <%= grandTotal %></td>
+        </tr>
+        <tr>
+            <td>Shipping</td>
+            <td>Free</td>
+        </tr>        
+        <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>RS <%= grandTotal %></strong></td>
+        </tr>
+        </table>
+        <button class="btn normal" id="cashOnDeliveryBtn">Cash on Delivery</button>
+    </div>
+</section>
+  
+  
+
+
+<section id="banner3" class="section-p1">
+    <div class="banner-box">
+        <h2>SEASONAL SALES</h2>
+        <h3>Movie Collection 30% OFF</h3>   
+    </div>
+
+    <div class="banner-box banner-img2">
+        <h2>SEASONAL SALES</h2>
+        <h3>Anime Collection 40% OFF</h3> 
+    </div>
+    
+    <div class="banner-box banner-img3"> 
+        <h2>SEASONAL SALES</h2>
+        <h3>Cartoon Collection 20% OFF</h3>
+    </div>
+    </section>
+
+    <%- include ('footer') %>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script>
+    function updateQuantity(cartId, newQuantity) {
+           fetch(`/updateCartItem/${cartId}`, {
+               method: 'PUT',
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               body: JSON.stringify({ quantity: newQuantity })
+           })
+           .then(response => {
+               if (response.ok) {
+                   // Update successful
+                   console.log('Quantity updated successfully');
+                   location.reload();
+               } else {
+                   // Handle error
+                   console.error('Failed to update quantity');
+               }
+           })
+           .catch(error => {
+               console.error('Error updating quantity:', error);
+           });
+       }
+
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const cartId = event.target.getAttribute('data-cartid');
+            try {
+                const response = await fetch(`/deletecartproduct/${cartId}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    location.reload();
+                    // Optionally, perform additional actions after successful deletion
+                    console.log('product deleted successfully');
+                } else {
+                    console.error('Failed to delete product');
+                    alert('Product deleted successfully')
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        });
+    });
+
+
+    document.getElementById("cashOnDeliveryBtn").addEventListener("click", function () {
+        placeOrder();
+    });
+
+    function placeOrder() {
+        // Send an AJAX POST request to the server without a request body
+        fetch('/order', {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the server
+            console.log('Order placed successfully:', data);
+            alert('Order Placed Successfully');
+            // You can redirect the user to a confirmation page or perform any other actions as needed
+            window.location.href='/';
+
+        })
+        .catch(error => {
+            console.error('Error placing order:', error);
+        });
+    }
+
+    
+       </script>
+<script src="script.js"></script>
+</body>
+</html>
+

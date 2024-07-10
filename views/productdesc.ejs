@@ -1,0 +1,85 @@
+<!-- productdesc.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintHub-Ecommerce</title>
+    <link rel="shortcut icon" href="./Assets/Printhub_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="/css/stylespro.css">
+    <script src="https://kit.fontawesome.com/dad03e859c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Berkshire+Swash&family=Comic+Neue:wght@700&family=Gentium+Book+Plus:wght@400;700&family=Lato:ital,wght@0,400;0,700;0,900;1,700&family=Lexend+Deca:wght@500&family=Lexend:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@500;800&family=Roboto:wght@100;400&family=Sue+Ellen+Francisco&family=Work+Sans:wght@400;700;900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900;&display:swap">
+</head>
+
+<body>
+  <%- include ('navbar') %>
+  
+  <section id="prodetails" class="section-p1" style="padding-top: 10%;">
+    <div class="single-pro-image">
+      <img src="data:<%= product.productImage.contentType %>;base64, <%= product.productImage.data.toString('base64') %>" width="100%" id="MainImg" alt="<%= product.productName %>">
+    </div>
+    <div class="single-pro-details">
+      <h6><%= product.categoryName %></h6>
+      <h2><%= product.productName %></h2>
+      <h4>&#8377;<%= product.productPrice %></h4>
+      <button data-productname="<%= product.productName %>" class="btn" type="button">Add to Cart</button>
+      <h4><i>Product Details</i></h4>
+      <span><%= product.productDescription %></span>
+    </div>
+  </section>
+  
+   
+
+
+  <section id="banner" class="section-m1">
+    <h4>Offers like never before</h4>
+    <h2>Up to <span>70% off </span> - All Designs and Accessories</h2>
+    <a href="/shop"><button class="btn normal" onclick="">Explore more</button></a>
+  </section>
+
+    <%- include ('footer') %>
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script>
+    // Frontend JavaScript (e.g., using Fetch API)
+const addToCartButtons = document.querySelectorAll('.btn');
+
+addToCartButtons.forEach(button => {
+button.addEventListener('click', async (event) => {
+    const productName = event.target.getAttribute('data-productname');
+    try {
+      
+        const response = await fetch(`/add-to-cart/${productName}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productName })
+        });
+    if (response.ok) {
+            const addedToCart = await response.json();
+            console.log('Added to Cart:', addedToCart);
+            location.reload();
+                 // Display success message
+            // Handle UI update or page refresh as needed
+        } else {
+            console.error('Failed to add to cart');
+            alert('Failed to add to cart');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+});
+
+</script>
+<script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!-- orderHistory.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintHub-Ecommerce</title>
+    <link rel="shortcut icon" href="./Assets/Printhub_nobg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="./CSS/stylespro.css">
+    <script src="https://kit.fontawesome.com/dad03e859c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Berkshire+Swash&family=Comic+Neue:wght@700&family=Gentium+Book+Plus:wght@400;700&family=Lato:ital,wght@0,400;0,700;0,900;1,700&family=Lexend+Deca:wght@500&family=Lexend:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@500;800&family=Roboto:wght@100;400&family=Sue+Ellen+Francisco&family=Work+Sans:wght@400;700;900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900;&display:swap">
+
+    <style>
+        /* Add this to your existing CSS or create a new stylesheet */
+
+.order-history {
+    margin-top: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: blueviolet;
+}
+
+table,thead,th,td{
+    border-radius: 20px;
+    border: none;
+}
+table {
+    width: 100%;
+    border: none;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+thead {
+    font-size: 20px;
+    border-radius: 20px;
+}
+tr{
+    background-color: white;
+}
+th, td {
+    padding: 15px 20px;
+    border: 1px solid  grey;
+    text-align: left;
+    border-radius: 20px;
+}
+
+th {
+    font-weight: bold;
+    background-color: greenyellow;
+}
+
+
+tbody tr:hover {
+    background-color: rgb(219, 252, 153);
+}
+
+/* Optional: Add some responsive styles */
+@media screen and (max-width: 600px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    th, td {
+        white-space: nowrap;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <%- include ('navbar') %>
+
+    <section id="page-header" class="blog-header">
+        <h2>Orders</h2>
+          <p>Track your Previous orders</p>
+    </section>
+    <div class="order-history" style="margin-top: 40px;">
+        <h2>Order History for <%= username %></h2>
+    <table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Product Details</th>
+            <th>Overall Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% orders.forEach(order => { %>
+            <tr>
+                <td><%= order.orderID %></td>
+                <td><%= order.createdAt.toLocaleDateString() %></td>
+                <td>
+                    <!-- Display product details as an array of objects -->
+                    <ul>
+                        <% order.orderItems.forEach(item => { %>
+                            <li>
+                                <strong>Product Name:</strong> <%= item.productName %><br>
+                                <strong>Quantity:</strong> <%= item.productQuantity %><br>
+                                <strong>Product Price:</strong> <%= item.productPrice %>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </td>
+                <td><%= calculateOverallPrice(order.orderItems) %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<% function calculateOverallPrice(orderItems) { %>
+    <% let overallPrice = 0; %>
+    <% orderItems.forEach(item => { %>
+        <% overallPrice += item.productQuantity * item.productPrice; %>
+    <% }) %>
+    <%= overallPrice %>
+<% } %>
+</div>
+
+
+<%- include ('footer') %>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="script.js"></script>
+</body>
+</html>

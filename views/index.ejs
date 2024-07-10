@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintHub-Ecommerce</title>
+    <link rel="shortcut icon" href="./Assets/Printhub_nobg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="./CSS/style.css">
+    <script src="https://kit.fontawesome.com/dad03e859c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Berkshire+Swash&family=Comic+Neue:wght@700&family=Gentium+Book+Plus:wght@400;700&family=Lato:ital,wght@0,400;0,700;0,900;1,700&family=Lexend+Deca:wght@500&family=Lexend:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@500;800&family=Roboto:wght@100;400&family=Sue+Ellen+Francisco&family=Work+Sans:wght@400;700;900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900;&display:swap">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Frontend JavaScript to fetch and update cart count
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // const username = '<%= username %>'; 
+                         
+                // const formattedUsername = encodeURIComponent(username);
+                const response = await fetch('/cart-count');
+                if (response.ok) {
+                    const cartCount = await response.json();
+                    updateCartCount(cartCount);
+                } else {
+                    console.error('Failed to fetch cart count');
+                    // Handle error, display default count or retry logic
+                }
+            } catch (error) {
+                console.error('Error fetching cart count:', error);
+            }
+        });
+        
+        function updateCartCount(count) {
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = count;
+            }
+        }
+        
+        
+        </script> 
+</head>
+
+<body>
+    <%- include ('navbar') %>
+    <section id="hero">
+    <h2>Super value deals</h2>
+    <h1>On all Products</h1>
+    <p>Save more with coupons and up to 70% off!</p>
+    <a href="/shop"><button>Shop Now</button></a>  
+    </section>
+    <!-- Specialities Section -->
+        <h2 class="special-txt jumping-text">Our Specialities</h2>
+    <marquee behavior="" direction="left" scrollamount="15">
+        <section id="feature" class="section-p1">
+        <span class="fe-box">
+            <img src="https://i.postimg.cc/PrN2Y6Cv/f1.png" alt="">
+            <h6>Free Shipping</h6>
+        </span>
+        
+        <span class="fe-box">
+            <img src="https://i.postimg.cc/qvycxW4q/f2.png" alt="">
+            <h6>Online Order</h6>
+        </span>
+        
+        <span class="fe-box">
+            <img src="https://i.postimg.cc/1Rdphyz4/f3.png" alt="">
+            <h6>Save Money</h6>
+        </span>
+        
+        <span class="fe-box">
+            <img src="https://i.postimg.cc/GpYc2JFZ/f4.png" alt="">
+            <h6>Promotions</h6>
+        </span>
+        
+        <span class="fe-box">
+            <img src="https://i.postimg.cc/4yFCwmv6/f5.png" alt="">
+            <h6>Happy Sell</h6>
+        </span>
+        
+        <span class="fe-box">
+            <img src="https://i.postimg.cc/gJN1knTC/f6.png" alt="">
+            <h6>F24/7 Support</h6>
+        </span>
+        </section>
+    </marquee>
+    <!-- Featured Section -->
+    <section id="product1" class="section-p1">
+    <h2 class="jumping-text">Featured Products</h2>
+    <p class="jumping-text">Catch 'em all in 3D! Check out our newly printed collection.</p>
+    
+    <div class="pro-container">
+    <!-- Products -->
+    <div class="pro-container">
+        <% products.forEach(product => { %>
+            
+            <div class="pro">
+                <% if (product.productImage && product.productImage.contentType && product.productImage.data) { %>
+                    <img src="data:<%= product.productImage.contentType %>;base64,<%= product.productImage.data.toString('base64') %>" alt="<%= product.productName %>">
+                <% } else { %>
+                    <span>No Image Available</span>
+                <% } %>
+                <div class="des">
+                    <span><%= product.productName %></span>
+                    <h5></h5>
+                    <div class="star">
+                        <!-- Add your star rating logic here -->
+                    </div>
+                    <h4>&#8377;<%= product.productPrice %></h4>
+                </div>
+                <button data-productid="<%= product._id %>" class="btn" id="bookbtn"><i class="fal fa-shopping-cart cart"></i></button>
+            </div>
+        <% }) %>
+        
+        
+    </div>
+    </section>
+
+    <section id="banner" class="section-m1">
+    <h4>Offers like never before</h4>
+    <h2>Up to <span>70% off </span> - All Designs and Accessories</h2>
+    <a href="/shop"><button class="btn normal" onclick="">Explore more</button></a>
+    </section>
+
+    <section id="banner3" class="section-p1">
+    <div class="banner-box">
+        <h2>SEASONAL SALES</h2>
+        <h3>Movie Collection 30% OFF</h3>   
+    </div>
+  
+    <div class="banner-box banner-img2">
+        <h2>SEASONAL SALES</h2>
+        <h3>Anime Collection 40% OFF</h3> 
+    </div>
+    
+    <div class="banner-box banner-img3"> 
+        <h2>SEASONAL SALES</h2>
+        <h3>Cartoon Collection 20% OFF</h3>
+    </div>
+    </section>
+
+
+    <%- include ('footer') %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const exploreButtons = document.querySelectorAll('.btn');
+      
+          exploreButtons.forEach(button => {
+            button.addEventListener('click', function () {
+              const productid = this.getAttribute('data-productid');
+              const formattedproductName = encodeURIComponent(productid); // Ensure the category name is URL-friendly
+           
+              window.location.href = `/productpage/${productid}`;
+            });
+          });
+        });
+    </script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userProfile = document.getElementById('userProfile');
+            const dropdown = document.getElementById('dropdown');
+    
+            userProfile.addEventListener('click', function (event) {
+                event.stopPropagation(); // Prevent the click event from bubbling up to document
+    
+                userProfile.classList.toggle('clicked');
+                dropdown.style.display = userProfile.classList.contains('clicked') ? 'block' : 'none';
+            });
+    
+            // Close the dropdown if user clicks outside of it
+            document.addEventListener('click', function (event) {
+                if (!userProfile.contains(event.target)) {
+                    userProfile.classList.remove('clicked');
+                    dropdown.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

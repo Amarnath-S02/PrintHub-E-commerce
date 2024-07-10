@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" href="./Assets/Printhub_nobg.png" type="image/x-icon">
+    <title>PrintHub-Ecommerce</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="./css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .box{
+            width: 6rem;
+            border: none;
+            font-family:Arial, Helvetica, sans-serif;
+            color: rgb(130, 130, 130);
+        }
+        .boximage,.boxdesc{
+            width: 14rem;
+            border: none;
+            font-family:Arial, Helvetica, sans-serif;
+            color: rgb(130, 130, 130);
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include ('sidebar') %>
+        <!-- End of Sidebar -->
+
+       <!-- Content Wrapper -->
+       <div id="content-wrapper" class="d-flex flex-column" style="background-color:papayawhip;">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <%- include ('topbar') %>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+               
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Update Products</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Product Id</th>
+                                        <th>Product Name</th>
+                                        <th>Category Name</th>
+                                        <th>Product Image</th>
+                                        <th>Product Price</th>
+                                        <th>Product Description</th>
+                                        <th>Update</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <% products.forEach(product => { %>
+                                    <tr>
+                                        <td><%= product.productId %></td>
+                                        <td><input class="box" size="6" type="text" name="productName" id="<%= product.productName %>" value="<%= product.productName %>"></td>
+                                        <td><input class="box" size="6" type="text" name="categoryName" id="<%= product.CategoryName %>" value="<%= product.categoryName %>"></td>
+                                        <td><input class="boximage" type="file" name="productImage" id="<%= product.productImage %>" value="<%= product.productImage %>"></td>
+                                        <td><input class="box" size="6" type="text" name="productPrice" id="<%= product.productPrice %>" value="<%= product.productPrice %>"></td>
+                                        <td><input class="boxdesc" size="6" type="text" name="productDescription" id="<%= product.productDescription %>" value="<%= product.productDescription %>"></td>
+                                        <td>
+                                            <div class="dropdown" style="display: inline-flex; gap: 10px;">
+                                                <!-- Assuming you have a unique product ID for each product -->
+                                                <button data-productid="<%= product._id %>" class="btn btn-secondary update-product-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: rgb(156, 78, 211); color: white;">
+                                                    Update
+                                                </button>
+                                                <button data-productid="<%= product._id %>" class="btn btn-secondary delete-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: rgb(156, 78, 211); color: white;">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </td> <% }) %>                                                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<script>
+    const updateButtons = document.querySelectorAll('.update-product-btn');
+updateButtons.forEach(button => {
+    button.addEventListener('click', async (event) => {
+        const productId = event.target.getAttribute('data-productid');
+        //alert('clicked')
+         // Fetch data from textboxes
+         const row = event.target.closest('tr');
+        const updatedProductName = row.querySelector('[name="productName"]').value;
+        const updatedProductImage = row.querySelector('[name="productImage"]').value;
+        const updatedCategoryName = row.querySelector('[name="categoryName"]').value;
+        const updatedProductPrice = row.querySelector('[name="productPrice"]').value;
+        const updatedProductDescription = row.querySelector('[name="productDescription"]').value;
+
+
+        // Prepare the updated product object
+        const updatedProduct = {
+            productName: updatedProductName,
+            productImage: updatedProductImage,
+            categoryName: updatedCategoryName,
+            productPrice: updatedProductPrice,
+            productDescription: updatedProductDescription
+        };
+
+
+        console.log('Updated product data to send:', updatedProduct);
+        try {
+            const response = await fetch(`/updateproduct/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedProduct)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert(data.message);
+                alert('Product Updated successfully')
+                    location.reload(); // Display success message
+                // Handle UI update or page refresh as needed
+            } else {
+                console.error('aFailed to update product');
+                alert('aFailed to update product');
+            }
+        } catch (error) {
+            console.error('aError updating product:', error);
+        }
+    });
+});
+const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const productId = event.target.getAttribute('data-productid');
+            
+            try {
+                const response = await fetch(`/deleteproduct/${productId}`, {
+                    method: 'DELETE'
+                }); 
+                if (response.ok) {
+                    alert('Product deleted successfully')
+                    location.reload();
+                    // Optionally, perform additional actions after successful deletion
+                    console.log('Product deleted successfully');
+                } else {
+                    console.error('Failed to delete product');
+                    alert('Failed to delete product')
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        });
+    });
+
+</script>
+<!-- Bootstrap core JavaScript-->
+<script src="./vendor/jquery/jquery.min.js"></script>
+<script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="./js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="./vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="./vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="./js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>

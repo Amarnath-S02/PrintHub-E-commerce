@@ -1,0 +1,120 @@
+body {
+  background-image: url(../Assets/Background_1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: Assistant, sans-serif;
+  display: flex;
+  min-height: 90vh;
+}
+.login {
+  color: white;
+  background: linear-gradient(to right, rgba(223, 4, 223, 0.750),#54d1ffef, #9de3fdd2);
+  margin: auto;
+  width: 450px;
+  border-radius: 15px;
+  padding: 40px;
+}
+.login .head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login h1{
+  padding-top: 15px;
+
+}
+.login img{
+  padding-left: 30px;
+  height:100px;
+  width: 150px;
+}
+.login .head .company {
+  font-size: 2.2em;
+}
+.login .msg {
+  text-align: center;
+}
+.login .form input[type=text].text {
+  border: none;
+  background: none;
+  box-shadow: 0px 2px 0px 0px white;
+  width: 100%;
+  color: white;
+  font-size: 1em;
+  outline: none;
+}
+.login .form .text::placeholder {
+  color: #D3D3D3;
+}
+.login .form input[type=password].password {
+  border: none;
+  background: none;
+  box-shadow: 0px 2px 0px 0px white;
+  width: 100%;
+  color: white;
+  font-size: 1em;
+  outline: none;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.login .form .password::placeholder {
+  color: #D3D3D3;
+}
+.login .form .btn-login {
+  background: none;
+  text-decoration: none;
+  color: white;
+  box-shadow: 0px 0px 0px 2px white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 2em;
+  transition: 0.5s;
+}
+.login .form .btn-login:hover {
+  background: #ace8fe;
+  color: dimgray;
+  transition: 0.5s;
+}
+.login .form .btn-register{
+  background: none;
+  margin-top: 20px;
+  margin-left: 20px;
+  color: white;
+  border: none;
+  transition: 0.5s;
+}
+.login .form .btn-register:hover {
+  color: rebeccapurple;
+  transition: 0.5s;
+}
+
+.login .form input[type=email].text {
+  border: none;
+  background: none;
+  box-shadow: 0px 2px 0px 0px white;
+  width: 100%;
+  color: white;
+  font-size: 1em;
+  outline: none;
+  margin-top: 20px;
+}
+
+.login .form input[type=tel].text {
+  border: none;
+  background: none;
+  box-shadow: 0px 2px 0px 0px white;
+  width: 100%;
+  color: white;
+  font-size: 1em;
+  outline: none;
+  margin-top: 20px;
+}
+
+.login .form input[type=tel].text:invalid, .login .form input[type=email].text:invalid, .login .form input[type=password].password:invalid , .login .form input[type=text].text:invalid{
+  box-shadow: 0px 2px 0px 0px red;
+  
+}
+.login .form input[type=tel].text:valid, .login .form input[type=email].text:valid, .login .form input[type=password].password:valid , .login .form input[type=text].text:valid{
+  box-shadow: 0px 2px 0px 0px green;
+  
+}

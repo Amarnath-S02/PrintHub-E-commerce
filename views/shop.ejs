@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintHub-Ecommerce</title>
+    <link rel="shortcut icon" href="./Assets/Printhub_nobg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="./CSS/style.css">
+    <script src="https://kit.fontawesome.com/dad03e859c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Berkshire+Swash&family=Comic+Neue:wght@700&family=Gentium+Book+Plus:wght@400;700&family=Lato:ital,wght@0,400;0,700;0,900;1,700&family=Lexend+Deca:wght@500&family=Lexend:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@500;800&family=Roboto:wght@100;400&family=Sue+Ellen+Francisco&family=Work+Sans:wght@400;700;900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900;&display:swap">
+</head>
+
+<body>
+    <%- include ('navbar') %>
+    <!-- Products Section -->
+
+    <section id="product1" class="section-p1" style="padding-top: 10%;">
+    <h2 class="jumping-text">Movie Collection</h2>
+    <p class="jumping-text">Get 'em all in 3D! Check out our newly printed Movie collection.</p>
+    
+            <div class="pro-container">
+                <% products.forEach(product => { %>
+                    <div class="pro">
+                        <img src="data:<%= product.productImage.contentType %>;base64,<%= product.productImage.data.toString('base64') %>" alt="<%= product.productName %>">
+                        <div class="des">
+                            <span><%= product.productName %></span>
+                            <h5></h5>
+                            <div class="star">
+                                <!-- Add your star rating logic here -->
+                            </div>
+                            <h4>&#8377;<%= product.productPrice %></h4>
+                        </div>
+                        <button data-productid="<%= product._id %>" class="btn" id="bookbtn"><i class="fal fa-shopping-cart cart"></i></button>
+                    </div>
+                <% }); %>
+            </div>
+    </section>
+
+    <section id="banner" class="section-m1">
+        <h4>Offers like never before</h4>
+        <h2>Up to <span>70% off </span> - All Designs and Accessories</h2>
+        <a href="/shop"><button class="btn normal" onclick="">Explore more</button></a>
+      </section>
+    
+        <%- include ('footer') %>
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const exploreButtons = document.querySelectorAll('.btn');
+      
+          exploreButtons.forEach(button => {
+            button.addEventListener('click', function () {
+              const productid = this.getAttribute('data-productid');
+              const formattedproductName = encodeURIComponent(productid); // Ensure the category name is URL-friendly
+           
+              window.location.href = `/productpage/${productid}`;
+            });
+          });
+        });
+</script>
+    <script src="script.js"></script>
+</body>
+</html>

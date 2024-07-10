@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintHub-Ecommerce</title>
+    <link rel="shortcut icon" href="./Assets/Printhub_nobg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="./css/login.css">
+    <script src="https://kit.fontawesome.com/dad03e859c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Berkshire+Swash&family=Comic+Neue:wght@700&family=Gentium+Book+Plus:wght@400;700&family=Lato:ital,wght@0,400;0,700;0,900;1,700&family=Lexend+Deca:wght@500&family=Lexend:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@500;800&family=Roboto:wght@100;400&family=Sue+Ellen+Francisco&family=Work+Sans:wght@400;700;900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900;&display:swap">
+    <style>
+        .user-switch :hover{
+            color: blueviolet;
+            text-shadow: white 2px 2px 5px;
+        }
+    </style>
+</head>
+<body>
+    <p class="user-switch"><a href="/adminlogin" style="color: white; text-decoration: none; font-weight: 800;">ADMIN</a></p>
+    <section class='login' id='login'>
+        <div class='head'>
+        <img src="./Assets/Printhub_nobg.png">
+        </div>
+        <div class='form'>
+        <form method="post" action="/login" >
+            <input type="text" placeholder='Email' class='text' id='email' name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail.com"><br>
+            <input type="password" placeholder='Password' id="password" class='password' name="password" pattern=".{6,}" autocomplete="current-password"><br>
+            <button type="submit" class='btn-login' id='do-login'>Login</button>
+            <a class='btn-register' id='do-register' href="/signup">New here? Create an account to get started</a>
+        </form>
+        </div>
+    </section>
+
+    
+</body>
+</html>
+  
