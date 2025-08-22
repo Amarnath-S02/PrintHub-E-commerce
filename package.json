@@ -27,5 +27,6 @@
     "start": "nodemon index.js"
   },
   "author": "Sk",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }
